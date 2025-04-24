@@ -1,7 +1,895 @@
-<!DOCTYPE html>
 <html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
+  <head>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="links.js"></script>
+  </head>
+  <body>
+    <img
+      src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/logo?v=1743124104927"
+      class="surface logo"
+    />
+    <nav class="menu">
+      <img
+        src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/menuTrim?v=1744136597349"
+        class="surface trim"
+      />
+      <img
+        src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/glow?v=1744136579476"
+        class="surface menuPart shrink"
+        id="mainMenu"
+      />
+      <img
+        src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/glow?v=1744136579476"
+        class="surface menuPart shrink"
+        id="conferenceRoom"
+      />
+      <img
+        src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/glow?v=1744136579476"
+        class="surface menuPart shrink"
+        id="showRoom"
+      />
+      <img
+        src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/glow?v=1744136579476"
+        class="surface menuPart shrink"
+        id="videoTour"
+      />
+      <img
+        src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/glow?v=1744136579476"
+        class="surface menuPart"
+        id="RingOrigin"
+      />
+      <img
+        src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/moon.png?v=1744136586281"
+        class="surface menuPart"
+        id="menuCircle"
+      />
+      <img
+        src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/Untitled%2003-27-2025%2010-11-23.png?v=1744755721279"
+        class="surface arrowL hide"
+        id="arrowL"
+      />
+      <img
+        src="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/Untitled%2003-27-2025%2010-11-23.png?v=1744755721279"
+        class="surface arrowR hide"
+        id="arrowR"
+      />
+      <div id="yeet" class="surface menuPart"></div>
+    </nav>
+
+    <a-scene cursor="rayOrigin:mouse">
+      <script type="text/javascript">
+        AFRAME.registerComponent("drag-rotate-component", {
+          schema: { speed: { default: 1 } },
+          init: function () {
+            this.ifMouseDown = false;
+            this.x_cord = 0;
+            this.y_cord = 0;
+            document.addEventListener(
+              "mousedown",
+              this.OnDocumentMouseDown.bind(this)
+            );
+            document.addEventListener(
+              "mouseup",
+              this.OnDocumentMouseUp.bind(this)
+            );
+            document.addEventListener(
+              "mousemove",
+              this.OnDocumentMouseMove.bind(this)
+            );
+          },
+          OnDocumentMouseDown: function (event) {
+            this.ifMouseDown = true;
+            this.x_cord = event.clientX;
+            this.y_cord = event.clientY;
+          },
+          OnDocumentMouseUp: function () {
+            this.ifMouseDown = false;
+          },
+          OnDocumentMouseMove: function (event) {
+            if (this.ifMouseDown) {
+              var temp_x = event.clientX - this.x_cord;
+              var temp_y = event.clientY - this.y_cord;
+              if (Math.abs(temp_y) < Math.abs(temp_x)) {
+                this.el.object3D.rotateY((temp_x * this.data.speed) / 1000);
+                document
+                  .querySelector("a-camera")
+                  .setAttribute("look-controls", { enabled: false });
+              } else {
+                this.el.object3D.rotateX((temp_y * this.data.speed) / 1000);
+              }
+              this.x_cord = event.clientX;
+              this.y_cord = event.clientY;
+            }
+            if (this.ifMouseDown == false) {
+              document
+                .querySelector("a-camera")
+                .setAttribute("look-controls", { enabled: true });
+            }
+          },
+        });
+        AFRAME.registerComponent("toggle-play-on-window-click", {
+          init: function () {
+            this.onClick = this.onClick.bind(this);
+          },
+          play: function () {
+            window.addEventListener("click", this.onClick);
+          },
+          pause: function () {
+            window.removeEventListener("click", this.onClick);
+          },
+          onClick: function (evt) {
+            var video = this.el.components.material.material.map.image;
+            if (!video) {
+              return;
+            }
+            video.paused ? video.play() : video.pause();
+          },
+        });
+      </script>
+      <a-assets>
+        <video
+          id="AAA"
+          preload="auto"
+          controls
+          playsinline
+          autoplay
+          muted
+          loop="true"
+          src="https://cdn.glitch.me/5700f5b8-ab80-4262-b91e-a3e886f12dfc/360Video.mp4?v=1741718023872"
+        ></video>
+      </a-assets>
+
+      <a-entity>
+        <a-videosphere
+          src="#AAA"
+          scale="0.05 0.05 0.05"
+          position="0 1.6 50"
+          play-on-click
+          toggle-play-on-window-click
+        >
+        </a-videosphere>
+
+        <a-sky
+          id="Start_Menu"
+          rotation=""
+          color="#ECECEC"
+          material="repeat: 150 150; color: #e63b7a; src: https://cdn.glitch.global/5700f5b8-ab80-4262-b91e-a3e886f12dfc/Untitled%2003-18-2025%2005-25-56.png?v=1742333725364"
+          geometry="radius: 25"
+        >
+          <a-cylinder
+            geometry="radius: 25"
+            material="repeat: 100 100; src: https://cdn.glitch.global/5700f5b8-ab80-4262-b91e-a3e886f12dfc/Untitled%2003-18-2025%2005-25-56.png?v=1742333725364"
+            scale="1 0 1"
+          >
+          </a-cylinder>
+          <a-entity
+            id="FactoryModel"
+            rotation="0 163.22400000000002 0"
+            position="0 1.3 0"
+            scale=""
+            gltf-model="https://cdn.glitch.global/5700f5b8-ab80-4262-b91e-a3e886f12dfc/plant?v=1741295654609"
+            drag-rotate-component=""
+            animation__spin="dur: 10000; easing: linear; from: 0 90 0; loop: 10000; property: rotation; pauseEvents: mousedown; resumeEvents: mouseup; to: 0 450 0"
+          ></a-entity>
+          <a-entity id="Model" rotation="" position="" scale="" gltf-model="https://cdn.glitch.me/92c85642-80b7-4d26-87ca-6475812444b0/uploads_files_3020219_Interior11.glb?v=1745453426958"></a-entity>
+        </a-sky>
+        <a-sky
+          id="FactoryModelBubble"
+          rotation=""
+          color="#ECECEC"
+          material="depthWrite: false; flatShading: true; repeat: 1000 1000; color: #54abc1; toneMapped: false"
+          geometry="radius: 25"
+          position="50 0 0"
+        >
+          <a-entity
+            obj-model="obj: https://cdn.glitch.me/92c85642-80b7-4d26-87ca-6475812444b0/Factory.obj?v=1744143474466"
+            rotation="270 0 90"
+            scale="80 80 80"
+            position="0 1 0"
+            material="repeat: 500 500; src: https://cdn.glitch.global/5700f5b8-ab80-4262-b91e-a3e886f12dfc/Untitled%2003-18-2025%2005-25-56.png?v=1742333725364"
+          >
+          </a-entity>
+          <a-entity
+            obj-model="obj: https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/Pedestal.obj?v=1744759959555"
+            rotation="270 0 90"
+            scale="160 160 160"
+            position="0 1 0"
+            material="repeat: 1000 1000; src: https://cdn.glitch.global/5700f5b8-ab80-4262-b91e-a3e886f12dfc/Untitled%2003-18-2025%2005-25-56.png?v=1742333725364"
+          >
+          </a-entity>
+          <a-entity
+            id="geon"
+            rotation="0 0 0"
+            position="0 2 0"
+            scale="50 50 50"
+            gltf-model="https://cdn.glitch.global/92c85642-80b7-4d26-87ca-6475812444b0/Dodecahedron.glb?v=1744759959848"
+          ></a-entity>
+        </a-sky>
+
+        <a-sky
+          id="Factory"
+          color="#ECECEC"
+          material="color: #ffffff; src: https://cdn.glitch.global/5700f5b8-ab80-4262-b91e-a3e886f12dfc/IMG_8720.jpeg?v=1739074937151"
+          geometry="radius: 25"
+          position="0 0 -50"
+        >
+          <a-entity
+            id="Bldng"
+            rotation="270 0 0"
+            position="0 0 0"
+            scale=""
+            obj-model="obj: https://cdn.glitch.me/92c85642-80b7-4d26-87ca-6475812444b0/ActualColors.obj?v=1743711384119"
+          >
+          </a-entity>
+        </a-sky>
+
+        <a-entity laser-controls="hand: left"></a-entity>
+        <a-entity laser-controls="hand: right"></a-entity>
+        <a-camera id="cam" position="0.0 1.6 0.7" rotation="0 0 0">
+          <a-entity
+            rotation="66.637 0 155.75914956410944"
+            position="-0.64098 -0.40107 -0.81552"
+            scale="0 0 0"
+          >
+            <a-cylinder
+              id="circle"
+              scale="0.2 0.1 0.2"
+              material="color: #fff994; emissive: #fff994; metalness: 0.4; roughness: 0"
+            ></a-cylinder>
+            <a-cylinder
+              id="circle2"
+              scale="0.3 0.1 0.3"
+              material="visible: false; color: #fff994; metalness: 0.4; roughness: 0"
+              position="0 0.076 0"
+              geometry="height: 0.5; radius: 2"
+            ></a-cylinder>
+            <a-cylinder
+              id="circle3"
+              scale="0.3 0.1 0.3"
+              material="visible: false; color: #fff994; metalness: 0.4; roughness: 0"
+              position="0 0.062 0"
+              geometry="height: 0.5; radius: 1.5"
+            ></a-cylinder>
+            <a-torus
+              id="wheel1"
+              scale="0.2 0.2 0.2"
+              material="color: #52d6fc; emissive: #52d6fc; metalness: 0.4; roughness: 0"
+              geometry="arc: 90; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
+              rotation="90 90 0"
+            ></a-torus>
+            <a-torus
+              id="wheel2"
+              scale="0 0 0"
+              material="color: #52d6fc; emissive: #52d6fc; metalness: 0.4; roughness: 0"
+              geometry="arc: 22.5; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
+              rotation="90 77.5 0"
+            ></a-torus>
+            <a-torus
+              id="wheel3"
+              scale="0 0 0"
+              material="color: #52d6fc; emissive: #00a1d8; metalness: 0.4; roughness: 0"
+              geometry="arc: 22.5; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
+              rotation="90 45 0"
+            ></a-torus>
+            <a-torus
+              id="wheel4"
+              scale="0 0 0"
+              material="color: #00a1d8; emissive: #00a1d8; metalness: 0.4; roughness: 0"
+              geometry="arc: 22.5; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
+              rotation="90 12.5 0"
+            ></a-torus>
+            <a-torus
+              id="wheel5"
+              scale="0 0 0"
+              material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
+              geometry="arc: 22.5; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
+              rotation="90 90 0"
+            ></a-torus>
+            <a-entity id="wheel2_0" scale="0 0 0" rotation="" position="0 0 0">
+              <a-torus
+                id="wheel2_1"
+                scale="0.2 0.2 0.2"
+                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
+                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
+                rotation="90 80 0"
+              ></a-torus>
+              <a-torus
+                id="wheel2_2"
+                scale="0.2 0.2 0.2"
+                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
+                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
+                rotation="90 110 0"
+              ></a-torus>
+              <a-torus
+                id="wheel2_3"
+                scale="0.2 0.2 0.2"
+                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
+                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
+                rotation="90 140 0"
+              ></a-torus>
+              <a-torus
+                id="wheel2_4"
+                scale="0.2 0.2 0.2"
+                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
+                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
+                rotation="90 170 0"
+              ></a-torus>
+              <a-torus
+                id="wheel2_5"
+                scale="0.2 0.2 0.2"
+                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
+                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
+                rotation="90 200 0"
+              ></a-torus>
+              <a-text
+                id="text1-2"
+                text="side: double; value: Option1-2"
+                rotation="84.04316826317455 91.20915140687576 -99.21107997367282"
+                position="0.01744 -0.03919 -0.39377"
+                scale="0.15 0.15 0.15"
+              >
+              </a-text
+              ><a-text
+                id="text1-4"
+                text="side: double; value: Option1-1"
+                rotation="90.04316826317455 91.20915140687576 -68.13957874372828"
+                position="0.21141 -0.02494 -0.33775"
+                scale="0.15 0.15 0.15"
+              >
+              </a-text
+              ><a-text
+                id="text1-5"
+                text="side: double; value: Option1-4"
+                rotation="89.99963750135457 -108.14731405683156 0"
+                position="-0.33602 -0.03707 -0.2115"
+                scale="0.15 0.15 0.15"
+              >
+              </a-text
+              ><a-text
+                id="text1-6"
+                text="side: double; value: Option1-5"
+                rotation="89.99963750135457 -81.06264181290399 0"
+                position="-0.39045 -0.03375 -0.01743"
+                scale="0.15 0.15 0.15"
+              >
+              </a-text
+              ><a-text
+                id="text1-3"
+                text="side: double; value: Option1-3"
+                rotation="89.99963750135457 -139.49975325388692 0"
+                position="-0.1876 -0.03928 -0.35212"
+                scale="0.15 0.15 0.15"
+              >
+              </a-text>
+            </a-entity>
+            <a-text
+              id="text2"
+              text="value: Option"
+              rotation="79.97402200215544 -163.25802118678163 -26.503308729366488"
+              position="-0.15388 -0.022 -0.25132"
+              scale="0 0 0"
+            >
+            </a-text
+            ><a-text
+              id="text3"
+              text="value: Option"
+              rotation="79.97402200215544 -163.25802118678163 -58.17355085522274"
+              position="-0.25949 -0.03672 -0.13265"
+              scale="0 0 0"
+            >
+            </a-text
+            ><a-text
+              id="text4"
+              text="value: Option"
+              rotation="79.97402200215544 -163.25802118678163 -88.69615851743197"
+              position="-0.28448 -0.06176 0.02276"
+              scale="0 0 0"
+            >
+            </a-text
+            ><a-text
+              id="text1"
+              text="value: Option"
+              rotation="84.04316826317455 91.20915140687576 -102.14118613797186"
+              position="0.00585 -0.04062 -0.29189"
+              scale="0 0 0"
+            >
+            </a-text>
+          </a-entity>
+        </a-camera>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      /*
+      var sceneEl = document.querySelector("a-scene");
+      sceneEl.addEventListener("loaded", function () {
+        sceneEl.components.inspector.openInspector();
+      });
+      */
+    </script>
+    <script>
+      var wheelOpen = false;
+      var wheel2Open = false;
+      var circle = document.getElementById("circle");
+      var circle2 = document.getElementById("circle2");
+      var text1 = document.getElementById("text1");
+      var text2 = document.getElementById("text2");
+      var text3 = document.getElementById("text3");
+      var text4 = document.getElementById("text4");
+      var wheel = document.getElementById("wheel1");
+      var segment1 = document.getElementById("wheel2");
+      var segment2 = document.getElementById("wheel3");
+      var segment3 = document.getElementById("wheel4");
+      var segment4 = document.getElementById("wheel5");
+      var wheel2 = document.getElementById("wheel2_0");
+      var subText2 = document.getElementById("text1-2");
+      var subText3 = document.getElementById("text1-3");
+      var subText1 = document.getElementById("text1-4");
+      var subText4 = document.getElementById("text1-5");
+      var subText5 = document.getElementById("text1-6");
+      var tp1 = document.getElementById("wheel2_1");
+      var tp2 = document.getElementById("wheel2_2");
+      var tp3 = document.getElementById("wheel2_3");
+      var tp4 = document.getElementById("wheel2_4");
+      var tp5 = document.getElementById("wheel2_5");
+
+      var cam = document.getElementById("cam");
+
+      tp1.addEventListener("mouseenter", function () {
+        if (wheel2Open) {
+          cam.setAttribute("position", "1025 5 300");
+        }
+      });
+      tp2.addEventListener("mouseenter", function () {
+        if (wheel2Open) {
+          cam.setAttribute("position", "0 1.6 -50");
+        }
+      });
+      tp3.addEventListener("mouseenter", function () {
+        if (wheel2Open) {
+          cam.setAttribute("position", "0 1.6 0");
+        }
+      });
+      tp4.addEventListener("mouseenter", function () {
+        if (wheel2Open) {
+          cam.setAttribute("position", "0 1.6 50");
+        }
+      });
+      tp5.addEventListener("mouseenter", function () {
+        if (wheel2Open) {
+          cam.setAttribute("position", "0 1.6 -10");
+        }
+      });
+
+      subText1.addEventListener("mouseenter", function () {
+        cam.setAttribute("position", "0 1.6 0");
+      });
+      subText2.addEventListener("mouseenter", function () {
+        cam.setAttribute("position", "10 1.6 0");
+      });
+      subText3.addEventListener("mouseenter", function () {
+        cam.setAttribute("position", "-10 1.6 0");
+      });
+      subText4.addEventListener("mouseenter", function () {
+        cam.setAttribute("position", "0 1.6 10");
+      });
+      subText5.addEventListener("mouseenter", function () {
+        cam.setAttribute("position", "0 1.6 -10");
+      });
+
+      wheel5.addEventListener("mouseenter", function () {
+        wheel2.setAttribute("rotation", "0 0 0");
+        subText1.setAttribute("text", "value: Option1-1");
+        subText2.setAttribute("text", "value: Option1-2");
+        subText3.setAttribute("text", "value: Option1-3");
+        subText4.setAttribute("text", "value: Option1-4");
+        subText5.setAttribute("text", "value: Option1-5");
+        if (!wheel2Open) {
+          (function myLoop(i) {
+            setTimeout(function () {
+              var initScale = 0.7;
+              var factor = 0.03;
+              var scaler =
+                0.03 * (10 - i) +
+                0.7 +
+                " " +
+                (0.03 * (10 - i) + 0.7) +
+                " " +
+                (0.03 * (10 - i) + 0.7);
+              wheel2.setAttribute("scale", String(scaler));
+
+              if (--i) myLoop(i);
+            }, 10);
+          })(10);
+          wheel2Open = true;
+        }
+      });
+      segment1.addEventListener("mouseenter", function () {
+        wheel2.setAttribute("rotation", "0 7 0");
+        subText1.setAttribute("text", "value: Option4-1");
+        subText2.setAttribute("text", "value: Option4-2");
+        subText3.setAttribute("text", "value: Option4-3");
+        subText4.setAttribute("text", "value: Option4-4");
+        subText5.setAttribute("text", "value: Option4-5");
+        if (!wheel2Open) {
+          (function myLoop(i) {
+            setTimeout(function () {
+              var initScale = 0.7;
+              var factor = 0.03;
+              var scaler =
+                0.03 * (10 - i) +
+                0.7 +
+                " " +
+                (0.03 * (10 - i) + 0.7) +
+                " " +
+                (0.03 * (10 - i) + 0.7);
+              wheel2.setAttribute("scale", String(scaler));
+
+              if (--i) myLoop(i);
+            }, 10);
+          })(10);
+          wheel2Open = true;
+        }
+      });
+      segment3.addEventListener("mouseenter", function () {
+        wheel2.setAttribute("rotation", "0 2 0");
+        subText1.setAttribute("text", "value: Option2-1");
+        subText2.setAttribute("text", "value: Option2-2");
+        subText3.setAttribute("text", "value: Option2-3");
+        subText4.setAttribute("text", "value: Option2-4");
+        subText5.setAttribute("text", "value: Option2-5");
+        if (!wheel2Open) {
+          (function myLoop(i) {
+            setTimeout(function () {
+              var initScale = 0.7;
+              var factor = 0.03;
+              var scaler =
+                0.03 * (10 - i) +
+                0.7 +
+                " " +
+                (0.03 * (10 - i) + 0.7) +
+                " " +
+                (0.03 * (10 - i) + 0.7);
+              wheel2.setAttribute("scale", String(scaler));
+
+              if (--i) myLoop(i);
+            }, 10);
+          })(10);
+          wheel2Open = true;
+        }
+      });
+      segment2.addEventListener("mouseenter", function () {
+        wheel2.setAttribute("rotation", "0 6 0");
+        subText1.setAttribute("text", "value: Option3-1");
+        subText2.setAttribute("text", "value: Option3-2");
+        subText3.setAttribute("text", "value: Option3-3");
+        subText4.setAttribute("text", "value: Option3-4");
+        subText5.setAttribute("text", "value: Option3-5");
+        if (!wheel2Open) {
+          (function myLoop(i) {
+            setTimeout(function () {
+              var initScale = 0.7;
+              var factor = 0.03;
+              var scaler =
+                0.03 * (10 - i) +
+                0.7 +
+                " " +
+                (0.03 * (10 - i) + 0.7) +
+                " " +
+                (0.03 * (10 - i) + 0.7);
+              wheel2.setAttribute("scale", String(scaler));
+
+              if (--i) myLoop(i);
+            }, 10);
+          })(10);
+          wheel2Open = true;
+        }
+      });
+
+      text1.addEventListener("mouseenter", function () {
+        wheel2.setAttribute("rotation", "0 0 0");
+        subText1.setAttribute("text", "value: Option1-1");
+        subText2.setAttribute("text", "value: Option1-2");
+        subText3.setAttribute("text", "value: Option1-3");
+        subText4.setAttribute("text", "value: Option1-4");
+        subText5.setAttribute("text", "value: Option1-5");
+        if (!wheel2Open) {
+          (function myLoop(i) {
+            setTimeout(function () {
+              var initScale = 0.7;
+              var factor = 0.03;
+              var scaler =
+                0.03 * (10 - i) +
+                0.7 +
+                " " +
+                (0.03 * (10 - i) + 0.7) +
+                " " +
+                (0.03 * (10 - i) + 0.7);
+              wheel2.setAttribute("scale", String(scaler));
+
+              if (--i) myLoop(i);
+            }, 10);
+          })(10);
+          wheel2Open = true;
+        }
+      });
+      text2.addEventListener("mouseenter", function () {
+        wheel2.setAttribute("rotation", "0 2 0");
+        subText1.setAttribute("text", "value: Option2-1");
+        subText2.setAttribute("text", "value: Option2-2");
+        subText3.setAttribute("text", "value: Option2-3");
+        subText4.setAttribute("text", "value: Option2-4");
+        subText5.setAttribute("text", "value: Option2-5");
+        if (!wheel2Open) {
+          (function myLoop(i) {
+            setTimeout(function () {
+              var initScale = 0.7;
+              var factor = 0.03;
+              var scaler =
+                0.03 * (10 - i) +
+                0.7 +
+                " " +
+                (0.03 * (10 - i) + 0.7) +
+                " " +
+                (0.03 * (10 - i) + 0.7);
+              wheel2.setAttribute("scale", String(scaler));
+
+              if (--i) myLoop(i);
+            }, 10);
+          })(10);
+          wheel2Open = true;
+        }
+      });
+      text3.addEventListener("mouseenter", function () {
+        wheel2.setAttribute("rotation", "0 2 0");
+        subText1.setAttribute("text", "value: Option2-1");
+        subText2.setAttribute("text", "value: Option2-2");
+        subText3.setAttribute("text", "value: Option2-3");
+        subText4.setAttribute("text", "value: Option2-4");
+        subText5.setAttribute("text", "value: Option2-5");
+        if (!wheel2Open) {
+          (function myLoop(i) {
+            setTimeout(function () {
+              var initScale = 0.7;
+              var factor = 0.03;
+              var scaler =
+                0.03 * (10 - i) +
+                0.7 +
+                " " +
+                (0.03 * (10 - i) + 0.7) +
+                " " +
+                (0.03 * (10 - i) + 0.7);
+              wheel2.setAttribute("scale", String(scaler));
+
+              if (--i) myLoop(i);
+            }, 10);
+          })(10);
+          wheel2Open = true;
+        }
+      });
+      text4.addEventListener("mouseenter", function () {
+        wheel2.setAttribute("rotation", "0 7 0");
+        subText1.setAttribute("text", "value: Option4-1");
+        subText2.setAttribute("text", "value: Option4-2");
+        subText3.setAttribute("text", "value: Option4-3");
+        subText4.setAttribute("text", "value: Option4-4");
+        subText5.setAttribute("text", "value: Option4-5");
+        if (!wheel2Open) {
+          (function myLoop(i) {
+            setTimeout(function () {
+              var initScale = 0.7;
+              var factor = 0.03;
+              var scaler =
+                0.03 * (10 - i) +
+                0.7 +
+                " " +
+                (0.03 * (10 - i) + 0.7) +
+                " " +
+                (0.03 * (10 - i) + 0.7);
+              wheel2.setAttribute("scale", String(scaler));
+
+              if (--i) myLoop(i);
+            }, 10);
+          })(10);
+          wheel2Open = true;
+        }
+      });
+
+      circle.addEventListener("mouseenter", function () {
+        wheel.setAttribute("scale", "0 0 0");
+        segment1.setAttribute("scale", "0.2 0.2 0.2");
+        segment2.setAttribute("scale", "0.2 0.2 0.2");
+        segment3.setAttribute("scale", "0.2 0.2 0.2");
+        segment4.setAttribute("scale", "0.2 0.2 0.2");
+        (function myLoop(i) {
+          setTimeout(function () {
+            var rota = "90 ";
+            var rotb = " 0";
+            var rotc = 90 + 10 * (15 - i);
+            var rotca = 90 + 10 * (15 - i) - 10;
+            var rotcb = 90 + 10 * (15 - i) - 20;
+            var rotcc = 90 + 10 * (15 - i) - 120;
+            var rotd = rota + (rotc - 22.5) + rotb;
+            var rote = rota + (rotca - 45) + rotb;
+            var rotf = rota + (rotcb - 67.5) + rotb;
+            var rotg = rota + rotcc + rotb;
+
+            segment1.setAttribute("rotation", rotd);
+            segment2.setAttribute("rotation", rote);
+            segment3.setAttribute("rotation", rotf);
+            segment4.setAttribute("rotation", rotg);
+
+            if (--i) myLoop(i);
+          }, 10);
+        })(10);
+        setTimeout(function () {
+          text1.setAttribute("scale", "0.15 0.15 0.15");
+          text2.setAttribute("scale", "0.15 0.15 0.15");
+          text3.setAttribute("scale", "0.15 0.15 0.15");
+          text4.setAttribute("scale", "0.15 0.15 0.15");
+          wheelOpen = true;
+        }, 300);
+      });
+      circle2.addEventListener("mouseenter", function () {
+        if (wheelOpen) {
+          wheel.setAttribute("scale", "0 0 0");
+          segment1.setAttribute("scale", "0.2 0.2 0.2");
+          segment2.setAttribute("scale", "0.2 0.2 0.2");
+          segment3.setAttribute("scale", "0.2 0.2 0.2");
+          segment4.setAttribute("scale", "0.2 0.2 0.2");
+          text1.setAttribute("scale", "0 0 0");
+          text2.setAttribute("scale", "0 0 0");
+          text3.setAttribute("scale", "0 0 0");
+          text4.setAttribute("scale", "0 0 0");
+          (function myLoop(i) {
+            setTimeout(function () {
+              var rota = "90 ";
+              var rotb = " 0";
+              var rotc = 90 + 10 * i;
+              var rotca = 90 + 10 * i - 10;
+              var rotcb = 90 + 10 * i - 20;
+              var rotcc = 90 + 10 * i - 10;
+              var rotd = rota + (rotc - 22.5) + rotb;
+              var rote = rota + (rotca - 45) + rotb;
+              var rotf = rota + (rotcb - 67.5) + rotb;
+              var rotg = rota + rotcc + rotb;
+
+              segment1.setAttribute("rotation", rotd);
+              segment2.setAttribute("rotation", rote);
+              segment3.setAttribute("rotation", rotf);
+              segment4.setAttribute("rotation", rotg);
+
+              if (--i) myLoop(i);
+            }, 10);
+          })(10);
+
+          setTimeout(function () {
+            segment1.setAttribute("scale", "0 0 0");
+            segment2.setAttribute("scale", "0 0 0");
+            segment3.setAttribute("scale", "0 0 0");
+            segment4.setAttribute("scale", "0 0 0");
+            wheel.setAttribute("scale", "0.2 0.2 0.2");
+            wheelOpen = false;
+            wheel2Open = false;
+          }, 100);
+        }
+        if (wheel2Open) {
+          wheel2.setAttribute("scale", "0 0 0");
+        }
+      });
+    </script>
+    <script>
+      document.getElementById("factory").addEventListener("pause", function () {
+        document
+          .querySelector("a-animation")
+          .setAttribute(
+            "from",
+            AFRAME.utils.coordinates.stringify(this.getAttribute("rotation"))
+          );
+      });
+      var currentEvent = "rotation-begin";
+      document.getElementById("factory").addEventListener("click", function () {
+        document
+          .getElementById("factory")
+          .dispatchEvent(new CustomEvent(currentEvent));
+        switch (currentEvent) {
+          case "rotation-begin":
+          case "rotation-resume":
+            //this.textContent = 'Pause'
+            currentEvent = "rotation-pause";
+            break;
+          case "rotation-pause":
+            //this.textContent = 'Resume'
+            currentEvent = "rotation-resume";
+            break;
+        }
+      });
+    </script>
+    <script>
+      elem = document.getElementById("menuCircle");
+      elem.onclick = function () {
+        //alert("clicked");
+        var videoEl = document.querySelector("#AAA");
+        var x = event.pageX - this.offsetLeft - this.width / 2;
+        var y = event.pageY - this.offsetTop - this.height / 2;
+        var m = Math.sqrt(x * x + y * y);
+        var test = document
+          .getElementById("videoTour")
+          .classList.contains("shrink");
+        var testIm = document
+          .getElementById("arrowL")
+          .classList.contains("hide");
+        var test2 = !testIm;
+        var Xsign = x > 0;
+        var Ysign = y > 0;
+
+        var mM = Xsign && !Ysign;
+        var vT = Xsign && Ysign;
+        var sR = !Xsign && Ysign;
+        var cR = !Xsign && !Ysign;
+
+        //var cam = document.getElementById("cam");
+        //cam.setAttribute("position", "1025 5 300");
+        if (m < 40 && test == true) {
+          document.getElementById("videoTour").classList.remove("shrink");
+          document.getElementById("videoTour").classList.add("growRotate90");
+          document.getElementById("RingOrigin").classList.add("shrink");
+          document.getElementById("menuCircle").classList.add("bounceGrow");
+          document.getElementById("showRoom").classList.remove("shrink");
+          document.getElementById("showRoom").classList.add("growRotate180");
+          document.getElementById("conferenceRoom").classList.remove("shrink");
+          document
+            .getElementById("conferenceRoom")
+            .classList.add("growRotate270");
+          document.getElementById("mainMenu").classList.remove("shrink");
+          document.getElementById("mainMenu").classList.add("grow");
+        }
+        if (m < 40 && test == false) {
+          document.getElementById("videoTour").classList.add("shrink");
+          document.getElementById("videoTour").classList.add("growRotate90");
+          document.getElementById("RingOrigin").classList.remove("shrink");
+          document.getElementById("menuCircle").classList.remove("bounceGrow");
+          document.getElementById("showRoom").classList.add("shrink");
+          document.getElementById("showRoom").classList.remove("growRotate180");
+          document.getElementById("conferenceRoom").classList.add("shrink");
+          document
+            .getElementById("conferenceRoom")
+            .classList.remove("growRotate270");
+          document.getElementById("mainMenu").classList.add("shrink");
+          document.getElementById("mainMenu").classList.remove("grow");
+        }
+        if (m > 40 && mM && !test) {
+          var cam = document.getElementById("cam");
+          cam.setAttribute("position", "0 1.6 0.7");
+          if (test2) {
+            document.getElementById("arrowL").classList.add("hide");
+            document.getElementById("arrowR").classList.add("hide");
+          }
+        }
+        if (m > 40 && vT && !test) {
+          var cam = document.getElementById("cam");
+          cam.setAttribute("position", "0 1.6 50");
+          videoEl.currentTime = 0;
+          if (test2) {
+            document.getElementById("arrowL").classList.add("hide");
+            document.getElementById("arrowR").classList.add("hide");
+          }
+        }
+        if (m > 40 && cR && !test) {
+          var cam = document.getElementById("cam");
+          cam.setAttribute("position", "0 1.6 -46.5");
+          document.getElementById("arrowL").classList.remove("hide");
+          document.getElementById("arrowR").classList.remove("hide");
+        }
+        if (m > 40 && sR && !test) {
+          var cam = document.getElementById("cam");
+          cam.setAttribute("position", "50 1.6 1.5");
+          document.getElementById("arrowL").classList.remove("hide");
+          document.getElementById("arrowR").classList.remove("hide");
+        }
+      };
+    </script>
+  </body>
 </html>
