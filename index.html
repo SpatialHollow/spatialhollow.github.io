@@ -898,10 +898,10 @@
           .classList.contains("cR");
         if(tpd && cR){
           cam.setAttribute("position", "0 1.6 -46.5");
-          document.getElementById("arrowL").classList.add("shifted");
+          document.getElementById("arrowL").classList.remove("shifted");
         }
         if(!tpd && cR){
-          cam.setAttribute("position", "0 21.6 0");
+          cam.setAttribute("position", "0 21.6 -50");
           document.getElementById("arrowL").classList.add("shifted");
         }
       };
@@ -916,10 +916,10 @@
           .classList.contains("cR");
         if(tpd && cR){
           cam.setAttribute("position", "0 1.6 -46.5");
-          document.getElementById("arrowL").classList.add("shifted");
+          document.getElementById("arrowL").classList.remove("shifted");
         }
         if(!tpd && cR){
-          cam.setAttribute("position", "0 21.6 0");
+          cam.setAttribute("position", "0 21.6 -50");
           document.getElementById("arrowL").classList.add("shifted");
         }
       };
