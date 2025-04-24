@@ -186,7 +186,7 @@
             obj-model="obj: /stage.obj"
             rotation="270 0 90"
             scale="80 80 80"
-            position="0 1 0"
+            position="0 0.5 0"
             material="repeat: 500 500; src: /texture.png"
           >
           </a-entity>
@@ -194,16 +194,17 @@
             obj-model="obj: /warehouse.obj"
             rotation="270 0 90"
             scale="160 160 160"
-            position="0 1 0"
+            position="0 0 0"
             material="repeat: 1000 1000; src: /texture.png"
           >
           </a-entity>
           <a-entity
             id="geon"
             rotation="0 0 0"
-            position="0 2 0"
+            position="0 0.7 0"
             scale="50 50 50"
             gltf-model="/geon.glb"
+            animation__spin="dur: 10000; easing: linear; from: 0 90 0; loop: 10000; property: rotation; pauseEvents: mousedown; resumeEvents: mouseup; to: 0 450 0"
           ></a-entity>
         </a-sky>
 
