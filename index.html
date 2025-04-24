@@ -206,6 +206,20 @@
             gltf-model="/geon.glb"
             animation__spin="dur: 10000; easing: linear; from: 0 90 0; loop: 10000; property: rotation; pauseEvents: mousedown; resumeEvents: mouseup; to: 0 450 0"
           ></a-entity>
+          <a-entity
+            id="bridge"
+            rotation="0 0 0"
+            position="0 60 0"
+            scale="1 1 1"
+            gltf-model="/bridge.glb"
+          ></a-entity>
+          <a-entity
+            id="tire"
+            rotation="0 0 0"
+            position="0 60 0"
+            scale="1 1 1"
+            gltf-model="/tire.glb"
+          ></a-entity>
         </a-sky>
 
         <a-sky
@@ -879,12 +893,15 @@
           document.getElementById("arrowL").classList.remove("hide");
           document.getElementById("arrowR").classList.remove("hide");
           document.getElementById("arrowL").classList.add("cR");
+          document.getElementById("arrowL").classList.remove("shifted");
         }
         if (m > 30 && sR && !test) {
           var cam = document.getElementById("cam");
           cam.setAttribute("position", "50 1.6 1.5");
           document.getElementById("arrowL").classList.remove("hide");
           document.getElementById("arrowR").classList.remove("hide");
+          document.getElementById("arrowL").classList.remove("cR");
+          document.getElementById("arrowL").classList.remove("shifted");
         }
       };
       left = document.getElementById("arrowL");
@@ -902,6 +919,14 @@
         }
         if(!tpd && cR){
           cam.setAttribute("position", "0 35 -50");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+        if(tpd && !cR){
+          cam.setAttribute("position", "50 1.6 1.5");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+        if(!tpd && !cR){
+          cam.setAttribute("position", "50 51.6 1.5");
           document.getElementById("arrowL").classList.add("shifted");
         }
       };
