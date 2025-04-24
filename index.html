@@ -206,19 +206,13 @@
             gltf-model="/geon.glb"
             animation__spin="dur: 10000; easing: linear; from: 0 90 0; loop: 10000; property: rotation; pauseEvents: mousedown; resumeEvents: mouseup; to: 0 450 0"
           ></a-entity>
-          <a-entity
-            id="bridge"
-            rotation="0 0 0"
-            position="0 60 0"
-            scale="1 1 1"
-            gltf-model="/bridge.glb"
-          ></a-entity>
+          <a-entity id="bridge" rotation="-90 0 0" position="1.50808 43.47259 0" scale="" gltf-model="/bridge.glb"></a-entity>
           <a-entity
             id="tire"
             rotation="0 0 0"
             position="0 60 0"
             scale="1 1 1"
-            gltf-model="/tire.glb"
+            gltf-model="/tire.gltf"
           ></a-entity>
         </a-sky>
 
@@ -949,7 +943,7 @@
         }
         if(tpd && !cR){
           cam.setAttribute("position", "50 1.6 1.5");
-          document.getElementById("arrowL").classList.add("shifted");
+          document.getElementById("arrowL").classList.remove("shifted");
         }
         if(!tpd && !cR){
           cam.setAttribute("position", "50 51.6 1.5");
