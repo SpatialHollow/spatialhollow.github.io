@@ -947,6 +947,14 @@
           cam.setAttribute("position", "0 35 -50");
           document.getElementById("arrowL").classList.add("shifted");
         }
+        if(tpd && !cR){
+          cam.setAttribute("position", "50 1.6 1.5");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+        if(!tpd && !cR){
+          cam.setAttribute("position", "50 51.6 1.5");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
       };
     </script>
   </body>
