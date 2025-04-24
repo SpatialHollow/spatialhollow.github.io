@@ -217,6 +217,8 @@
         >
           <a-entity id="Bldng" rotation="270 0 0" position="" scale="" obj-model="obj: /cf1.obj">
           </a-entity>
+          <a-entity id="Bldng2" rotation="270 0 0" position="0 20 0" scale="" obj-model="obj: /cf2.obj">
+          </a-entity>
         </a-sky>
 
         <a-entity laser-controls="hand: left"></a-entity>
@@ -876,12 +878,49 @@
           cam.setAttribute("position", "0 1.6 -46.5");
           document.getElementById("arrowL").classList.remove("hide");
           document.getElementById("arrowR").classList.remove("hide");
+          document.getElementById("arrowL").classList.add("cR");
         }
         if (m > 30 && sR && !test) {
           var cam = document.getElementById("cam");
           cam.setAttribute("position", "50 1.6 1.5");
           document.getElementById("arrowL").classList.remove("hide");
           document.getElementById("arrowR").classList.remove("hide");
+        }
+      };
+      left = document.getElementById("arrowL");
+      left.onclick = function () {
+        var cam = document.getElementById("cam");
+        var tpd = document
+          .getElementById("arrowL")
+          .classList.contains("shifted");
+        var cR = document
+          .getElementById("arrowL")
+          .classList.contains("cR");
+        if(tpd && cR){
+          cam.setAttribute("position", "0 1.6 -46.5");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+        if(!tpd && cR){
+          cam.setAttribute("position", "0 21.6 0");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+      };
+      right = document.getElementById("arrowR");
+      right.onclick = function () {
+        var cam = document.getElementById("cam");
+        var tpd = document
+          .getElementById("arrowL")
+          .classList.contains("shifted");
+        var cR = document
+          .getElementById("arrowL")
+          .classList.contains("cR");
+        if(tpd && cR){
+          cam.setAttribute("position", "0 1.6 -46.5");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+        if(!tpd && cR){
+          cam.setAttribute("position", "0 21.6 0");
+          document.getElementById("arrowL").classList.add("shifted");
         }
       };
     </script>
