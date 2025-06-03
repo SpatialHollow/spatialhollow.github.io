@@ -9,51 +9,61 @@
     <img
       src="/logo.png"
       class="surface logo"
+      draggable="false"
     />
     <nav class="menu">
       <img
         src="/accent.png"
         class="surface trim"
+        draggable="false"
       />
       <img
         src="/ring.png"
         class="surface menuPart shrink"
         id="mainMenu"
+        draggable="false"
       />
       <img
         src="/ring.png"
         class="surface menuPart shrink"
         id="conferenceRoom"
+        draggable="false"
       />
       <img
         src="/ring.png"
         class="surface menuPart shrink"
         id="showRoom"
+        draggable="false"
       />
       <img
         src="/ring.png"
         class="surface menuPart shrink"
         id="videoTour"
+        draggable="false"
       />
       <img
         src="/ring.png"
         class="surface menuPart"
         id="RingOrigin"
+        draggable="false"
       />
       <img
         src="/button.png"
         class="surface menuPart"
         id="menuCircle"
+        draggable="false"
       />
       <img
         src="/arrow.png"
         class="surface arrowL hide"
         id="arrowL"
+        draggable="false"
       />
       <img
         src="/arrow.png"
         class="surface arrowR hide"
         id="arrowR"
+        draggable="false"
       />
       <div id="yeet" class="surface menuPart"></div>
     </nav>
@@ -174,40 +184,21 @@
             animation__spin="dur: 10000; easing: linear; from: 0 90 0; loop: 10000; property: rotation; pauseEvents: mousedown; resumeEvents: mouseup; to: 0 450 0"
           ></a-entity>
         </a-sky>
-        <a-sky
-          id="FactoryModelBubble"
-          rotation=""
-          color="#ECECEC"
-          material="depthWrite: false; flatShading: true; repeat: 1000 1000; color: #54abc1; toneMapped: false"
-          geometry="radius: 25"
-          position="50 0 0"
-        >
-          <a-entity
-            obj-model="obj: /stage.obj"
-            rotation="270 0 90"
-            scale="80 80 80"
-            position="0 0.5 0"
-            material="repeat: 500 500; src: /texture.png"
-          >
+        
+        <a-sky id="FactoryModelBubble" rotation="" color="#ECECEC" material="depthWrite: false; flatShading: true; repeat: 1000 1000; color: #54abc1; toneMapped: false" geometry="radius: 25" position="50 0 0">
+          <a-entity obj-model="obj: /stage.obj" rotation="270 0 90" scale="80 80 80" position="0 0.5 0" material="repeat: 500 500; src: /texture.png">
           </a-entity>
-          <a-entity
-            obj-model="obj: /warehouse.obj"
-            rotation="270 0 90"
-            scale="160 160 160"
-            position="0 0 0"
-            material="repeat: 1000 1000; src: /texture.png"
-          >
+          <a-entity obj-model="obj: /warehouse.obj" rotation="270 0 90" scale="160 160 160" position="" material="repeat: 1000 1000; src: /texture.png">
           </a-entity>
-          <a-entity
-            id="geon"
-            rotation="0 0 0"
-            position="0 1 0"
-            scale="50 50 50"
-            gltf-model="/geon.glb"
-            animation__spin="dur: 10000; easing: linear; from: 0 90 0; loop: 10000; property: rotation; pauseEvents: mousedown; resumeEvents: mouseup; to: 0 450 0"
-          ></a-entity>
+          <a-entity id="geon" rotation="0 273.59999999999997 0" position="0 1 0" scale="50 50 50" gltf-model="/geon.glb" animation__spin="dur: 10000; easing: linear; from: 0 90 0; loop: 10000; property: rotation; pauseEvents: mousedown; resumeEvents: mouseup; to: 0 450 0"></a-entity>
+          <a-sky id="skybubble" rotation="" color="#ECECEC" material="src: /skybox.png" geometry="radius: 25" position="0 50 0"></a-sky>
+          <a-entity id="bridge" rotation="180 0 0" position="3.67041 49.93618 0" scale="" obj-model="obj: /bridge.obj"></a-entity>
+          <a-entity id="tire" rotation="0 0 197.136" position="-0.639 53.251099999999994 -2.572" scale="5 5 5" gltf-model="/tireChromed.glb" animation__tirespin="dur: 10000; easing: linear; from: 0 0 0; loop: 10000; property: rotation; to: 0 0 360" animation__tiremove="dur: 5000; easing: linear; from: -0.639 50.300 -2.572; loop: 10000; property: position; to: -0.639 53.300 -2.572"></a-entity>
+          <a-entity id="text" rotation="0 200 0" position="-5.57449 53.31631 -0.80828" scale="5 5 5" rotation:="0 360 0 " text__text="side: double; value:Various materials can appear, and text can be customized, to either float in space or have a backing"></a-entity>
+          <a-entity id="text-2" rotation="0 119.99999999999999 0" position="2.63338 53.31631 -1.42544" scale="5 5 5" rotation:="0 360 0 " text__text="alphaTest: 1; side: double; transparent: false; value:This is an example of a more realistic\nscene with texturing and a realistic\n skybox; whiteSpace: nowrap"></a-entity>
+          <a-entity id="text-backing" rotation="0 119.99999999999999 0" position="3.42778 52.99482 -0.19284" scale="5 5 5" rotation:="0 360 0 " geometry="depth: 0; height: 0.25; width: 0.5"></a-entity>
         </a-sky>
-
+        
         <a-sky
           id="Factory"
           color="#ECECEC"
@@ -216,6 +207,8 @@
           position="0 0 -50"
         >
           <a-entity id="Bldng" rotation="270 0 0" position="" scale="" obj-model="obj: /cf1.obj">
+          </a-entity>
+          <a-entity id="Bldng2" rotation="" position="-3.36073 34. 1.53234" scale="" gltf-model="/cf2.glb">
           </a-entity>
         </a-sky>
 
@@ -876,12 +869,68 @@
           cam.setAttribute("position", "0 1.6 -46.5");
           document.getElementById("arrowL").classList.remove("hide");
           document.getElementById("arrowR").classList.remove("hide");
+          document.getElementById("arrowL").classList.add("cR");
+          document.getElementById("arrowL").classList.remove("shifted");
         }
         if (m > 30 && sR && !test) {
           var cam = document.getElementById("cam");
           cam.setAttribute("position", "50 1.6 1.5");
           document.getElementById("arrowL").classList.remove("hide");
           document.getElementById("arrowR").classList.remove("hide");
+          document.getElementById("arrowL").classList.remove("cR");
+          document.getElementById("arrowL").classList.remove("shifted");
+        }
+      };
+      left = document.getElementById("arrowL");
+      left.onclick = function () {
+        var cam = document.getElementById("cam");
+        var tpd = document
+          .getElementById("arrowL")
+          .classList.contains("shifted");
+        var cR = document
+          .getElementById("arrowL")
+          .classList.contains("cR");
+        if(tpd && cR){
+          cam.setAttribute("position", "0 1.6 -46.5");
+          document.getElementById("arrowL").classList.remove("shifted");
+        }
+        if(!tpd && cR){
+          cam.setAttribute("position", "0 35 -50");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+        if(tpd && !cR){
+          cam.setAttribute("position", "50 1.6 1.5");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+        if(!tpd && !cR){
+          cam.setAttribute("position", "50 51.6 1.5");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+      };
+      right = document.getElementById("arrowR");
+      right.onclick = function () {
+        var cam = document.getElementById("cam");
+        var tpd = document
+          .getElementById("arrowL")
+          .classList.contains("shifted");
+        var cR = document
+          .getElementById("arrowL")
+          .classList.contains("cR");
+        if(tpd && cR){
+          cam.setAttribute("position", "0 1.6 -46.5");
+          document.getElementById("arrowL").classList.remove("shifted");
+        }
+        if(!tpd && cR){
+          cam.setAttribute("position", "0 35 -50");
+          document.getElementById("arrowL").classList.add("shifted");
+        }
+        if(tpd && !cR){
+          cam.setAttribute("position", "50 1.6 1.5");
+          document.getElementById("arrowL").classList.remove("shifted");
+        }
+        if(!tpd && !cR){
+          cam.setAttribute("position", "50 51.6 1.5");
+          document.getElementById("arrowL").classList.add("shifted");
         }
       };
     </script>
