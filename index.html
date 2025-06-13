@@ -1,9 +1,9 @@
+<!DOCTYPE html>
 <html>
   <head>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <link rel="stylesheet" href="style.css" />
-    <script src="links.js"></script>
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
     <img
@@ -17,6 +17,23 @@
         class="surface trim"
         draggable="false"
       />
+	  <div class="surface menuPart squarer top" id="DivSheet" draggable="false">
+	    <p class="center hide" >
+		  Menu
+	    </p>
+		<p class="ULcorner hideT" id="ULcorner">
+		  Cr
+	    </p>
+		<p class="URcorner hideT" id="URcorner">
+		  Menu
+	    </p>
+		<p class="LRcorner hideT" id="LRcorner">
+		  Video
+	    </p>
+		<p class="LLcorner hideT" id="LLcorner">
+		  Sr
+	    </p>
+	  </div>
       <img
         src="/ring.png"
         class="surface menuPart shrink"
@@ -53,6 +70,7 @@
         id="menuCircle"
         draggable="false"
       />
+	  
       <img
         src="/arrow.png"
         class="surface arrowL hide"
@@ -137,6 +155,31 @@
             video.paused ? video.play() : video.pause();
           },
         });
+		AFRAME.registerComponent("click-detect-vid", {
+    init: function() {
+      this.el.addEventListener("click", e => {
+        // log the points
+        //console.log(e.detail.intersection.point)
+        let point = e.detail.intersection.point
+		let front = point.z > 50
+		let right = point.x > 0
+		let back = point.z < 50
+		let left = point.x < 0
+		if(left && front){
+			document.querySelector("#videoSphere").setAttribute("src", "#AAA");
+		}
+		if(left && back){
+			document.querySelector("#videoSphere").setAttribute("src", "#BBB");
+		}
+		if(right && back){
+			document.querySelector("#videoSphere").setAttribute("src", "#CCC");
+		}
+        let pointString = point.x.toFixed(2) + ", " + point.y.toFixed(2) + ", " + point.z.toFixed(2);
+		let pointStringT = front + "F, " + back + "B, " + left + "L, "+ right + "R,";
+		console.log(pointStringT);
+      })
+    }
+  });
       </script>
       <a-assets>
         <video
@@ -149,12 +192,34 @@
           loop="true"
           src="/360Video.mp4"
         ></video>
+		<video
+          id="BBB"
+          preload="auto"
+          controls
+          playsinline
+          autoplay
+          muted
+          loop="true"
+          src="/TVideo.mp4"
+        ></video>
+		<video
+          id="CCC"
+          preload="auto"
+          controls
+          playsinline
+          autoplay
+          muted
+          loop="true"
+          src="/360Timelapse.mp4"
+        ></video>
       </a-assets>
 
       <a-entity>
         <a-videosphere
+		  id="videoSphere"
           src="#AAA"
           scale="0.05 0.05 0.05"
+		  click-detect-vid
           position="0 1.6 50"
           play-on-click
           toggle-play-on-window-click
@@ -833,6 +898,10 @@
           document.getElementById("showRoom").classList.remove("shrink");
           document.getElementById("showRoom").classList.add("growRotate180");
           document.getElementById("conferenceRoom").classList.remove("shrink");
+		  document.getElementById("ULcorner").classList.remove("hideT");
+		  document.getElementById("URcorner").classList.remove("hideT");
+		  document.getElementById("LRcorner").classList.remove("hideT");
+		  document.getElementById("LLcorner").classList.remove("hideT");
           document
             .getElementById("conferenceRoom")
             .classList.add("growRotate270");
@@ -847,6 +916,10 @@
           document.getElementById("showRoom").classList.add("shrink");
           document.getElementById("showRoom").classList.remove("growRotate180");
           document.getElementById("conferenceRoom").classList.add("shrink");
+		  document.getElementById("ULcorner").classList.add("hideT");
+		  document.getElementById("URcorner").classList.add("hideT");
+		  document.getElementById("LRcorner").classList.add("hideT");
+		  document.getElementById("LLcorner").classList.add("hideT");
           document
             .getElementById("conferenceRoom")
             .classList.remove("growRotate270");
@@ -940,5 +1013,8 @@
         }
       };
     </script>
+	<script>
+	
+	</script>
   </body>
 </html>
