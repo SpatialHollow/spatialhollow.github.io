@@ -1,0 +1,215 @@
+a-scene {
+  position: absolute;
+  z-index: 0;
+}
+body {
+  padding: 0;
+  margin: 0;
+  background: #596778;
+  color: #eeeeee;
+  text-align: center;
+  font-family: "Lato", sans-serif;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+@media screen and (max-width: 700px) {
+  body {
+    padding: 170px 0 0 0;
+    width: 100%;
+  }
+}
+
+a {
+  color: inherit;
+}
+
+.surface{
+  position: fixed;
+  z-index: 1;
+}
+.logo{
+  width:30%;
+  top:0;
+  left:0;
+}
+.trim{
+  width:50%;
+  bottom:0;
+  right:0;
+}
+.menuPart{
+  width:23%;
+  bottom:0;
+  right:0;
+}
+.squarer{
+  aspect-ratio : 1 / 1;
+  pointer-events: none
+}
+.arrowL{
+  width:10%;
+  top:40%;
+  left:0;
+}
+.arrowR{
+  width:10%;
+  top:40%;
+  right:0;
+  transform:rotate(180deg);
+}
+.hide{
+  transform:scale(0);
+}
+.top{
+	z-index: 2;
+}
+.bottom{
+	z-index: 0;
+}
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #000000
+}
+
+.ULcorner {
+  margin: 0;
+  position: absolute;
+  top: 24%;
+  left: 24%;
+  -ms-transform: translate(-24%, -24%);
+  transform: translate(-24%, -24%) rotate(315deg);
+  color: #000000
+}
+.URcorner {
+  margin: 0;
+  position: absolute;
+  top: 23%;
+  right: 23%;
+  -ms-transform: translate(23%, -23%);
+  transform: translate(23%, -23%) rotate(45deg);
+  color: #000000
+}
+
+.LRcorner {
+  margin: 0;
+  position: absolute;
+  bottom: 22%;
+  right: 22%;
+  -ms-transform: translate(22%, 22%);
+  transform: translate(22%, 22%) rotate(135deg);
+  color: #000000
+}
+
+.LLcorner {
+  margin: 0;
+  position: absolute;
+  bottom: 24%;
+  Left: 24%;
+  -ms-transform: translate(-24%, 24%);
+  transform: translate(-24%, 24%) rotate(225deg);
+  color: #000000
+}
+
+.growRotate90{
+	animation: growRotate-90 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.hideT{
+	display: none;
+}
+
+@keyframes growRotate-90 {
+  0% {
+    transform: scale(0.5) rotate(0);
+  }
+  50% {
+    transform: scale(1) rotate(0);
+  }
+  100% {
+    transform: scale(1) rotate(90deg);
+  }
+}
+
+.growRotate180{
+	animation: growRotate-180 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes growRotate-180 {
+  0% {
+    transform: scale(0.5) rotate(0);
+  }
+  50% {
+    transform: scale(1) rotate(0);
+  }
+  100% {
+    transform: scale(1) rotate(180deg);
+  }
+}
+
+.growRotate270{
+	animation: growRotate-270 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes growRotate-270 {
+  0% {
+    transform: scale(0.5) rotate(0);
+  }
+  50% {
+    transform: scale(1) rotate(0);
+  }
+  100% {
+    transform: scale(1) rotate(270deg);
+  }
+}
+
+.shrink {
+	animation: shrink 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+
+@keyframes shrink {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.3);
+  }
+}
+
+.grow {
+	animation: grow 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+
+@keyframes grow {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bounceGrow {
+	animation: bounceGrow 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+
+@keyframes bounceGrow {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.7);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
