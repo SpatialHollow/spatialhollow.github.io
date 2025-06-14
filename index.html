@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <script type="importmap">      
+	    {        "imports": {
+	    "aframe": "../../../dist/aframe-master.module.min.js",
+	    "three": "../../../super-three-package/build/three.webgpu.js",
+	    "three/webgpu": "../../../super-three-package/build/three.webgpu.js",
+	    "three/tsl": "../../../super-three-package/build/three.tsl.js",
+	    "three/addons/": "../../../super-three-package/examples/jsm/"        
+	    }      }    
+    </script>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
