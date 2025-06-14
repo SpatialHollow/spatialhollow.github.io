@@ -3,13 +3,18 @@
   <head>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <script type="importmap">      
-	    {        "imports": {
-	    "aframe": "../../../dist/aframe-master.module.min.js",
-	    "three": "../../../super-three-package/build/three.webgpu.js",
-	    "three/webgpu": "../../../super-three-package/build/three.webgpu.js",
-	    "three/tsl": "../../../super-three-package/build/three.tsl.js",
-	    "three/addons/": "../../../super-three-package/examples/jsm/"        
-	    }      }    
+	    
+      {
+        "imports": {
+          "aframe": "../dist/aframe-master.module.min.js",
+          "three": "https://cdn.jsdelivr.net/npm/super-three@0.173.5/build/three.webgpu.js",
+          "three/webgpu": "https://cdn.jsdelivr.net/npm/super-three@0.173.5/build/three.webgpu.js",
+          "three/tsl": "https://cdn.jsdelivr.net/npm/super-three@0.173.5/build/three.tsl.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/super-three@0.173.5/examples/jsm/"
+        }
+      }
+    
+    
     </script>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
