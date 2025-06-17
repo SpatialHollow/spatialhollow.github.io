@@ -280,7 +280,6 @@
           <a-entity id="text-2" rotation="0 119.99999999999999 0" position="2.63338 53.31631 -1.42544" scale="5 5 5" rotation:="0 360 0 " text__text="alphaTest: 1; side: double; value: This is an example of a more realistic\nscene with texturing and a realistic\n skybox; whiteSpace: nowrap"></a-entity>
           <a-entity id="text-backing" rotation="0 119.99999999999999 0" position="3.04233 53.18932 -0.79129" scale="5 5 5" rotation:="0 360 0 " geometry="depth: 0; height: 0.25; width: 0.8"></a-entity>
         </a-sky>
-        <!--
         <a-sky
           id="Factory"
           color="#ECECEC"
@@ -295,179 +294,9 @@
           <a-entity id="Bldng2" rotation="" position="-3.36073 34. 1.53234" scale="" gltf-model="/cf2.glb">
           </a-entity>
         </a-sky>
--->
         <a-entity laser-controls="hand: left"></a-entity>
         <a-entity laser-controls="hand: right"></a-entity>
         <a-camera id="cam" position="0.0 1.6 0.7" rotation="0 0 0">
-          <a-entity
-            rotation="66.637 0 155.75914956410944"
-            position="-0.64098 -0.40107 -0.81552"
-            scale="0 0 0"
-          >
-            <a-cylinder
-              id="circle"
-              scale="0.2 0.1 0.2"
-              material="color: #fff994; emissive: #fff994; metalness: 0.4; roughness: 0"
-            ></a-cylinder>
-            <a-cylinder
-              id="circle2"
-              scale="0.3 0.1 0.3"
-              material="visible: false; color: #fff994; metalness: 0.4; roughness: 0"
-              position="0 0.076 0"
-              geometry="height: 0.5; radius: 2"
-            ></a-cylinder>
-            <a-cylinder
-              id="circle3"
-              scale="0.3 0.1 0.3"
-              material="visible: false; color: #fff994; metalness: 0.4; roughness: 0"
-              position="0 0.062 0"
-              geometry="height: 0.5; radius: 1.5"
-            ></a-cylinder>
-            <a-torus
-              id="wheel1"
-              scale="0.2 0.2 0.2"
-              material="color: #52d6fc; emissive: #52d6fc; metalness: 0.4; roughness: 0"
-              geometry="arc: 90; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
-              rotation="90 90 0"
-            ></a-torus>
-            <a-torus
-              id="wheel2"
-              scale="0 0 0"
-              material="color: #52d6fc; emissive: #52d6fc; metalness: 0.4; roughness: 0"
-              geometry="arc: 22.5; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
-              rotation="90 77.5 0"
-            ></a-torus>
-            <a-torus
-              id="wheel3"
-              scale="0 0 0"
-              material="color: #52d6fc; emissive: #00a1d8; metalness: 0.4; roughness: 0"
-              geometry="arc: 22.5; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
-              rotation="90 45 0"
-            ></a-torus>
-            <a-torus
-              id="wheel4"
-              scale="0 0 0"
-              material="color: #00a1d8; emissive: #00a1d8; metalness: 0.4; roughness: 0"
-              geometry="arc: 22.5; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
-              rotation="90 12.5 0"
-            ></a-torus>
-            <a-torus
-              id="wheel5"
-              scale="0 0 0"
-              material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
-              geometry="arc: 22.5; radius: 1.4; radiusTubular: 0.1; segmentsRadial: 3"
-              rotation="90 90 0"
-            ></a-torus>
-            <a-entity id="wheel2_0" scale="0 0 0" rotation="" position="0 0 0">
-              <a-torus
-                id="wheel2_1"
-                scale="0.2 0.2 0.2"
-                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
-                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
-                rotation="90 80 0"
-              ></a-torus>
-              <a-torus
-                id="wheel2_2"
-                scale="0.2 0.2 0.2"
-                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
-                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
-                rotation="90 110 0"
-              ></a-torus>
-              <a-torus
-                id="wheel2_3"
-                scale="0.2 0.2 0.2"
-                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
-                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
-                rotation="90 140 0"
-              ></a-torus>
-              <a-torus
-                id="wheel2_4"
-                scale="0.2 0.2 0.2"
-                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
-                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
-                rotation="90 170 0"
-              ></a-torus>
-              <a-torus
-                id="wheel2_5"
-                scale="0.2 0.2 0.2"
-                material="color: #00a1d8; emissive: #008cb4; metalness: 0.4; roughness: 0"
-                geometry="arc: 22.5; radius: 1.9; radiusTubular: 0.1; segmentsRadial: 3"
-                rotation="90 200 0"
-              ></a-torus>
-              <a-text
-                id="text1-2"
-                text="side: double; value: Option1-2"
-                rotation="84.04316826317455 91.20915140687576 -99.21107997367282"
-                position="0.01744 -0.03919 -0.39377"
-                scale="0.15 0.15 0.15"
-              >
-              </a-text
-              ><a-text
-                id="text1-4"
-                text="side: double; value: Option1-1"
-                rotation="90.04316826317455 91.20915140687576 -68.13957874372828"
-                position="0.21141 -0.02494 -0.33775"
-                scale="0.15 0.15 0.15"
-              >
-              </a-text
-              ><a-text
-                id="text1-5"
-                text="side: double; value: Option1-4"
-                rotation="89.99963750135457 -108.14731405683156 0"
-                position="-0.33602 -0.03707 -0.2115"
-                scale="0.15 0.15 0.15"
-              >
-              </a-text
-              ><a-text
-                id="text1-6"
-                text="side: double; value: Option1-5"
-                rotation="89.99963750135457 -81.06264181290399 0"
-                position="-0.39045 -0.03375 -0.01743"
-                scale="0.15 0.15 0.15"
-              >
-              </a-text
-              ><a-text
-                id="text1-3"
-                text="side: double; value: Option1-3"
-                rotation="89.99963750135457 -139.49975325388692 0"
-                position="-0.1876 -0.03928 -0.35212"
-                scale="0.15 0.15 0.15"
-              >
-              </a-text>
-            </a-entity>
-            <a-text
-              id="text2"
-              text="value: Option"
-              rotation="79.97402200215544 -163.25802118678163 -26.503308729366488"
-              position="-0.15388 -0.022 -0.25132"
-              scale="0 0 0"
-            >
-            </a-text
-            ><a-text
-              id="text3"
-              text="value: Option"
-              rotation="79.97402200215544 -163.25802118678163 -58.17355085522274"
-              position="-0.25949 -0.03672 -0.13265"
-              scale="0 0 0"
-            >
-            </a-text
-            ><a-text
-              id="text4"
-              text="value: Option"
-              rotation="79.97402200215544 -163.25802118678163 -88.69615851743197"
-              position="-0.28448 -0.06176 0.02276"
-              scale="0 0 0"
-            >
-            </a-text
-            ><a-text
-              id="text1"
-              text="value: Option"
-              rotation="84.04316826317455 91.20915140687576 -102.14118613797186"
-              position="0.00585 -0.04062 -0.29189"
-              scale="0 0 0"
-            >
-            </a-text>
-          </a-entity>
         </a-camera>
       </a-entity>
     </a-scene>
@@ -480,7 +309,9 @@
       });
       */
     </script>
+	  
     <script>
+	    /*
       var wheelOpen = false;
       var wheel2Open = false;
       var circle = document.getElementById("circle");
@@ -850,6 +681,7 @@
           wheel2.setAttribute("scale", "0 0 0");
         }
       });
+      */
     </script>
     <script>
       document.getElementById("factory").addEventListener("pause", function () {
@@ -878,6 +710,7 @@
         }
       });
     </script>
+	  
     <script>
       elem = document.getElementById("menuCircle");
       elem.onclick = function () {
