@@ -49,6 +49,9 @@ a {
   aspect-ratio : 1 / 1;
   pointer-events: none
 }
+.unclick{
+  pointer-events: none
+}
 .arrowL{
   width:10%;
   top:40%;
