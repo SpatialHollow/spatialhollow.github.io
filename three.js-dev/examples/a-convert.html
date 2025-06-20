@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>SpatialHollow Demo</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="main.css">
+	<link type="text/css" rel="stylesheet" href="../../css/style.css">
+	<style>
+		body {
+			background-color: #bfe3dd;
+			color: #000;
+		}
+
+		a {
+			color: #2983ff;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div id="container"></div>
+	<!--
+	<div id="info">
+		<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - animation - keyframes<br/>
+		Model: <a href="https://artstation.com/artwork/1AGwX" target="_blank" rel="noopener">Littlest Tokyo</a> by
+		<a href="https://artstation.com/glenatron" target="_blank" rel="noopener">Glen Fox</a>, CC Attribution.
+	</div>
+	-->
+	<video id="video" class="A" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="../../360Video.mp4">
+	</video>
+	<!--
+	<video id="video2" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="../../360Video2.mov">
+	</video>
+		-->
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "../build/three.module.js",
+				"three/addons/": "./jsm/"
+			}
+		}
+	</script>
+
+	<img src="/logo.png"
+		 class="surface logo unclick"
+		 draggable="false">
+	<nav class="menu">
+		<img src="/accent.png"
+			 class="surface trim unclick"
+			 draggable="false" />
+		<div class="surface menuPart squarer top" id="DivSheet" draggable="false">
+			<p class="center hide">
+				Menu
+			</p>
+			<p class="ULcorner hideT" id="ULcorner">
+				Cr
+			</p>
+			<p class="URcorner hideT" id="URcorner">
+				Menu
+			</p>
+			<p class="LRcorner hideT" id="LRcorner">
+				Video
+			</p>
+			<p class="LLcorner hideT" id="LLcorner">
+				Sr
+			</p>
+		</div>
+		<img src="/ring.png"
+			 class="surface menuPart shrink"
+			 id="mainMenu"
+			 draggable="false">
+		<img src="/ring.png"
+			 class="surface menuPart shrink"
+			 id="conferenceRoom"
+			 draggable="false">
+		<img src="/ring.png"
+			 class="surface menuPart shrink"
+			 id="showRoom"
+			 draggable="false">
+		<img src="/ring.png"
+			 class="surface menuPart shrink"
+			 id="videoTour"
+			 draggable="false">
+		<img src="/ring.png"
+			 class="surface menuPart"
+			 id="RingOrigin"
+			 draggable="false">
+		<img src="/button.png"
+			 class="surface menuPart"
+			 id="menuCircle"
+			 draggable="false" />
+
+		<img src="/arrow.png"
+			 class="surface arrowL hide"
+			 id="arrowL"
+			 draggable="false" />
+		<img src="/arrow.png"
+			 class="surface arrowR hide"
+			 id="arrowR"
+			 draggable="false" />
+		<div id="yeet" class="surface menuPart"></div>
+	</nav>
+
+	<script type="module">
+
+		import * as THREE from 'three';
+
+		import Stats from 'three/addons/libs/stats.module.js';
+
+		import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+		import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+		import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+		import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+		import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+
+		let mixer;
+
+		const clock = new THREE.Clock();
+		const container = document.getElementById('container');
+
+		const stats = new Stats();
+		container.appendChild(stats.dom);
+
+		const renderer = new THREE.WebGLRenderer({ antialias: true });
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		container.appendChild(renderer.domElement);
+
+		const pmremGenerator = new THREE.PMREMGenerator(renderer);
+
+		const scene = new THREE.Scene();
+		scene.background = new THREE.Color(0xbfe3dd);
+		scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+
+		const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 100);
+		camera.position.set(0, 1, 5);
+
+		const controls = new OrbitControls(camera, renderer.domElement);
+		controls.target.set(0, 0.5, 0);
+		controls.update();
+		controls.enablePan = false;
+		controls.enableDamping = true;
+
+		const dracoLoader = new DRACOLoader();
+		dracoLoader.setDecoderPath('jsm/libs/draco/gltf/');
+
+		const loader = new GLTFLoader();
+		loader.setDRACOLoader(dracoLoader);
+
+		loader.load('../../furnishedFactory.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(0, 0, 0);
+			model.scale.set(1, 1, 1);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('SpatialHollow/floor.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(0, -3, 0);
+			model.scale.set(1, 1, 1);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('SpatialHollow/field.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(0, -1, 0);
+			model.scale.set(1, 1, 1);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('SpatialHollow/skybox.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(500, 550, 0);
+			model.scale.set(1, 1, 1);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('../../roadF.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(499.57941, 549.93618, 0.62844);
+			model.rotation.set(0, 0, 0);
+			model.scale.set(10, 10, 10);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('../../tireChromed.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(499.361, 550.251099999999994, -2.572);
+			model.rotation.set(0, 0, 0);
+			model.scale.set(5, 5, 5);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('../../warehouse.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(500, 0, 0);
+			model.rotation.set(0, 0, 0);
+			model.scale.set(1, 1, 1);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('../../stage.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(500, 0, 0);
+			model.rotation.set(0, 0, 0);
+			model.scale.set(2, 2, 2);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('../../geon.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(500, 1, 0);
+			model.rotation.set(0, 0, 0);
+			model.scale.set(50, 50, 50);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('../../factoryInterior.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(0, 0, -500);
+			model.rotation.set(0, 0, 0);
+			model.scale.set(1, 1, 1);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('../../cf1.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(0.14587, -1, -499);
+			model.rotation.set(0, 160, 0);
+			model.scale.set(0.5, 0.5, 0.5);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		loader.load('../../cf2.glb', function (gltf) {
+
+			const model = gltf.scene;
+			model.position.set(2, 499.5, -500);
+			model.rotation.set(0, 160, 0);
+			model.scale.set(0.5, 0.5, 0.5);
+			scene.add(model);
+
+			mixer = new THREE.AnimationMixer(model);
+			//mixer.clipAction( gltf.animations[ 0 ] ).play();
+
+			renderer.setAnimationLoop(animate);
+
+		}, undefined, function (e) {
+
+			console.error(e);
+
+		});
+
+		var geometry = new THREE.SphereGeometry(5, 60, 40);
+		// invert the geometry on the x-axis so that all of the faces point inward
+		geometry.scale(- 1, 1, 1);
+
+		var video = document.getElementById('video');
+		video.play();
+
+		var texture = new THREE.VideoTexture(video);
+		texture.colorSpace = THREE.SRGBColorSpace;
+		const material = new THREE.MeshBasicMaterial({ map: texture });
+
+		var mesh = new THREE.Mesh(geometry, material);
+		mesh.position.set(0, 0, 500);
+		scene.add(mesh);
+
+		const floader = new FontLoader();
+
+		floader.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+			const color = 0xffff66;
+
+			const matDark = new THREE.LineBasicMaterial({
+				color: color,
+				side: THREE.DoubleSide
+			});
+
+			const matLite = new THREE.MeshBasicMaterial({
+				color: color,
+				transparent: true,
+				opacity: 0.4,
+				side: THREE.DoubleSide
+			});
+
+			const message = 'This is both the start menu and a digital\nrepresentation of a factory.';
+
+			const shapes = font.generateShapes(message, 100);
+
+			const geometry = new THREE.ShapeGeometry(shapes);
+
+			geometry.computeBoundingBox();
+
+			const xMid = - 0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+
+			geometry.translate(xMid, 0, 0);
+
+			// make shape ( N.B. edge view not visible )
+
+			const text = new THREE.Mesh(geometry, matLite);
+			text.position.z = - 150;
+			scene.add(text);
+
+			// make line shape ( N.B. edge view remains visible )
+
+			const holeShapes = [];
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				if (shape.holes && shape.holes.length > 0) {
+
+					for (let j = 0; j < shape.holes.length; j++) {
+
+						const hole = shape.holes[j];
+						holeShapes.push(hole);
+
+					}
+
+				}
+
+			}
+
+			shapes.push(...holeShapes);
+
+			const lineText = new THREE.Object3D();
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				const points = shape.getPoints();
+				const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+				geometry.translate(xMid, 0, 0);
+
+				const lineMesh = new THREE.Line(geometry, matDark);
+				lineText.add(lineMesh);
+
+			}
+
+			const tScale = 0.002;
+			lineText.scale.set(tScale, tScale, tScale);
+			lineText.position.set(0, 1, 0);
+			scene.add(lineText);
+
+			//render();
+
+		});
+
+		floader.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+			const color = 0x000000;
+
+			const matDark = new THREE.LineBasicMaterial({
+				color: color,
+				side: THREE.DoubleSide
+			});
+
+			const matLite = new THREE.MeshBasicMaterial({
+				color: color,
+				transparent: true,
+				opacity: 0.4,
+				side: THREE.DoubleSide
+			});
+
+			const message = 'This is how we can display 360 degree video';
+
+			const shapes = font.generateShapes(message, 100);
+
+			const geometry = new THREE.ShapeGeometry(shapes);
+
+			geometry.computeBoundingBox();
+
+			const xMid = - 0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+
+			geometry.translate(xMid, 0, 0);
+
+			// make shape ( N.B. edge view not visible )
+
+			const text = new THREE.Mesh(geometry, matLite);
+			text.position.z = - 150;
+			scene.add(text);
+
+			// make line shape ( N.B. edge view remains visible )
+
+			const holeShapes = [];
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				if (shape.holes && shape.holes.length > 0) {
+
+					for (let j = 0; j < shape.holes.length; j++) {
+
+						const hole = shape.holes[j];
+						holeShapes.push(hole);
+
+					}
+
+				}
+
+			}
+
+			shapes.push(...holeShapes);
+
+			const lineText = new THREE.Object3D();
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				const points = shape.getPoints();
+				const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+				geometry.translate(xMid, 0, 0);
+
+				const lineMesh = new THREE.Line(geometry, matDark);
+				lineText.add(lineMesh);
+
+			}
+
+			const tScale = 0.002;
+			lineText.scale.set(tScale, tScale, tScale);
+			lineText.position.set(0.5, 0.5, 498);
+			scene.add(lineText);
+
+			//render();
+
+		});
+
+		floader.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+			const color = 0xffff66;
+
+			const matDark = new THREE.LineBasicMaterial({
+				color: color,
+				side: THREE.DoubleSide
+			});
+
+			const matLite = new THREE.MeshBasicMaterial({
+				color: color,
+				transparent: true,
+				opacity: 0.4,
+				side: THREE.DoubleSide
+			});
+
+			const message = 'This is a example of a \"Abstract\" shape in a Abstract space; \n \n \n \n \n              The geon is representative of any product';
+
+			const shapes = font.generateShapes(message, 100);
+
+			const geometry = new THREE.ShapeGeometry(shapes);
+
+			geometry.computeBoundingBox();
+
+			const xMid = - 0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+
+			geometry.translate(xMid, 0, 0);
+
+			// make shape ( N.B. edge view not visible )
+
+			const text = new THREE.Mesh(geometry, matLite);
+			text.position.z = - 150;
+			scene.add(text);
+
+			// make line shape ( N.B. edge view remains visible )
+
+			const holeShapes = [];
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				if (shape.holes && shape.holes.length > 0) {
+
+					for (let j = 0; j < shape.holes.length; j++) {
+
+						const hole = shape.holes[j];
+						holeShapes.push(hole);
+
+					}
+
+				}
+
+			}
+
+			shapes.push(...holeShapes);
+
+			const lineText = new THREE.Object3D();
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				const points = shape.getPoints();
+				const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+				geometry.translate(xMid, 0, 0);
+
+				const lineMesh = new THREE.Line(geometry, matDark);
+				lineText.add(lineMesh);
+
+			}
+
+			const tScale = 0.0005;
+			lineText.scale.set(tScale, tScale, tScale);
+			lineText.position.set(501, 1.55, -0.81);
+			scene.add(lineText);
+
+		});
+
+		floader.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+			const color = 0xffff66;
+
+			const matDark = new THREE.LineBasicMaterial({
+				color: color,
+				side: THREE.DoubleSide
+			});
+
+			const matLite = new THREE.MeshBasicMaterial({
+				color: color,
+				transparent: true,
+				opacity: 0.4,
+				side: THREE.DoubleSide
+			});
+
+			const message = 'This is a product-showcase example. There is also a second one available simply by clicking on the arrows';
+
+			const shapes = font.generateShapes(message, 100);
+
+			const geometry = new THREE.ShapeGeometry(shapes);
+
+			geometry.computeBoundingBox();
+
+			const xMid = - 0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+
+			geometry.translate(xMid, 0, 0);
+
+			// make shape ( N.B. edge view not visible )
+
+			const text = new THREE.Mesh(geometry, matLite);
+			text.position.z = - 150;
+			scene.add(text);
+
+			// make line shape ( N.B. edge view remains visible )
+
+			const holeShapes = [];
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				if (shape.holes && shape.holes.length > 0) {
+
+					for (let j = 0; j < shape.holes.length; j++) {
+
+						const hole = shape.holes[j];
+						holeShapes.push(hole);
+
+					}
+
+				}
+
+			}
+
+			shapes.push(...holeShapes);
+
+			const lineText = new THREE.Object3D();
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				const points = shape.getPoints();
+				const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+				geometry.translate(xMid, 0, 0);
+
+				const lineMesh = new THREE.Line(geometry, matDark);
+				lineText.add(lineMesh);
+
+			}
+
+			const tScale = 0.0005;
+			lineText.scale.set(tScale, tScale, tScale);
+			lineText.position.set(500, 2, -0.81);
+			scene.add(lineText);
+
+		});
+
+		floader.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+			const color = 0xffff66;
+
+			const matDark = new THREE.LineBasicMaterial({
+				color: color,
+				side: THREE.DoubleSide
+			});
+
+			const matLite = new THREE.MeshBasicMaterial({
+				color: color,
+				transparent: true,
+				opacity: 0.4,
+				side: THREE.DoubleSide
+			});
+
+			const message = 'Various materials can appear, and text can be customized, \n to either float in space or have a backing \n \n \n This is an example of a more realistic\nscene with texturing and a realistic\n skybox';
+
+			const shapes = font.generateShapes(message, 100);
+
+			const geometry = new THREE.ShapeGeometry(shapes);
+
+			geometry.computeBoundingBox();
+
+			const xMid = - 0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+
+			geometry.translate(xMid, 0, 0);
+
+			// make shape ( N.B. edge view not visible )
+
+			const text = new THREE.Mesh(geometry, matLite);
+			text.position.z = - 150;
+			scene.add(text);
+
+			// make line shape ( N.B. edge view remains visible )
+
+			const holeShapes = [];
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				if (shape.holes && shape.holes.length > 0) {
+
+					for (let j = 0; j < shape.holes.length; j++) {
+
+						const hole = shape.holes[j];
+						holeShapes.push(hole);
+
+					}
+
+				}
+
+			}
+
+			shapes.push(...holeShapes);
+
+			const lineText = new THREE.Object3D();
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				const points = shape.getPoints();
+				const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+				geometry.translate(xMid, 0, 0);
+
+				const lineMesh = new THREE.Line(geometry, matDark);
+				lineText.add(lineMesh);
+
+			}
+
+			const tScale = 0.001;
+			lineText.scale.set(tScale, tScale, tScale);
+			lineText.rotation.set(0, 20, 0);
+			lineText.position.set(495, 553.3, -0.81);
+			scene.add(lineText);
+
+		});
+
+		floader.load('fonts/helvetiker_regular.typeface.json', function (font) {
+
+			const color = 0xffff66;
+
+			const matDark = new THREE.LineBasicMaterial({
+				color: color,
+				side: THREE.DoubleSide
+			});
+
+			const matLite = new THREE.MeshBasicMaterial({
+				color: color,
+				transparent: true,
+				opacity: 0.4,
+				side: THREE.DoubleSide
+			});
+
+			const message = 'This is a Conference-Room \nexample, where the \n conference room also \n overlooks the interior\n of a factory';
+
+			const shapes = font.generateShapes(message, 100);
+
+			const geometry = new THREE.ShapeGeometry(shapes);
+
+			geometry.computeBoundingBox();
+
+			const xMid = - 0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
+
+			geometry.translate(xMid, 0, 0);
+
+			// make shape ( N.B. edge view not visible )
+
+			const text = new THREE.Mesh(geometry, matLite);
+			text.position.z = - 150;
+			scene.add(text);
+
+			// make line shape ( N.B. edge view remains visible )
+
+			const holeShapes = [];
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				if (shape.holes && shape.holes.length > 0) {
+
+					for (let j = 0; j < shape.holes.length; j++) {
+
+						const hole = shape.holes[j];
+						holeShapes.push(hole);
+
+					}
+
+				}
+
+			}
+
+			shapes.push(...holeShapes);
+
+			const lineText = new THREE.Object3D();
+
+			for (let i = 0; i < shapes.length; i++) {
+
+				const shape = shapes[i];
+
+				const points = shape.getPoints();
+				const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+				geometry.translate(xMid, 0, 0);
+
+				const lineMesh = new THREE.Line(geometry, matDark);
+				lineText.add(lineMesh);
+
+			}
+
+			const tScale = 0.0003;
+			lineText.scale.set(tScale, tScale, tScale);
+			lineText.rotation.set(0, 160, 0);
+			lineText.position.set(-0.26, 0.35, -498);
+			scene.add(lineText);
+
+		});
+
+		window.onresize = function () {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+
+		};
+
+		function render() {
+
+			renderer.render(scene, camera);
+
+		}
+
+		function animate() {
+
+			const delta = clock.getDelta();
+
+			mixer.update(delta);
+
+			controls.update();
+
+			stats.update();
+
+			renderer.render(scene, camera);
+
+		}
+		/*
+		const raycaster = new THREE.Raycaster();
+		const mouse = new THREE.Vector2();
+
+		function onClick(event) {
+			mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+			mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+			raycaster.setFromCamera(mouse, camera);
+
+			const intersects = raycaster.intersectObject(mesh);
+			if (intersects.length > 0) {
+				// Example: switch video on click
+
+				changeVideo('video');
+			}
+		}
+
+		function changeVideo(videoId) {
+			// Pause and clean up the old video
+			let currentVideo = document.getElementById(videoId);
+			currentVideo.pause();
+			if (texture) {
+				texture.dispose();
+			}
+
+			// Set up new video
+			currentVideo = document.getElementById(videoId);
+			if (currentVideo.classList.contains("A")) {
+				currentVideo.classList.add("B");
+				currentVideo.classList.remove("A");
+				currentVideo.src = "../../360Video2.mp4";
+				console.log("A");
+			} else {
+				currentVideo.classList.add("A");
+				currentVideo.classList.remove("B");
+				currentVideo.src = "../../360Video.mp4";
+				console.log("B");
+			}
+			currentVideo.play();
+			texture = new THREE.VideoTexture(currentVideo);
+			texture.colorSpace = THREE.SRGBColorSpace;
+			const material = new THREE.MeshBasicMaterial({ map: texture });
+
+			// Swap and update the material
+			mesh.material.map = texture;
+			mesh.material.needsUpdate = true;
+		}
+		
+
+		window.addEventListener('click', onClick, false);
+		*/
+		var elem = document.getElementById("menuCircle");
+		elem.onclick = function () {
+			//alert("clicked");
+			var videoEl = document.querySelector("#AAA");
+			var x = event.pageX - this.offsetLeft - this.width / 2;
+			var y = event.pageY - this.offsetTop - this.height / 2;
+			var m = Math.sqrt(x * x + y * y);
+			var test = document
+				.getElementById("videoTour")
+				.classList.contains("shrink");
+			var testIm = document
+				.getElementById("arrowL")
+				.classList.contains("hide");
+			var test2 = !testIm;
+			var Xsign = x > 0;
+			var Ysign = y > 0;
+
+			var mM = Xsign && !Ysign;
+			var vT = Xsign && Ysign;
+			var sR = !Xsign && Ysign;
+			var cR = !Xsign && !Ysign;
+
+			//var cam = document.getElementById("cam");
+			//cam.setAttribute("position", "1025 5 300");
+			if (m < 30 && test == true) {
+				document.getElementById("videoTour").classList.remove("shrink");
+				document.getElementById("videoTour").classList.add("growRotate90");
+				document.getElementById("RingOrigin").classList.add("shrink");
+				document.getElementById("menuCircle").classList.add("bounceGrow");
+				document.getElementById("showRoom").classList.remove("shrink");
+				document.getElementById("showRoom").classList.add("growRotate180");
+				document.getElementById("conferenceRoom").classList.remove("shrink");
+				document.getElementById("ULcorner").classList.remove("hideT");
+				document.getElementById("URcorner").classList.remove("hideT");
+				document.getElementById("LRcorner").classList.remove("hideT");
+				document.getElementById("LLcorner").classList.remove("hideT");
+				document
+					.getElementById("conferenceRoom")
+					.classList.add("growRotate270");
+				document.getElementById("mainMenu").classList.remove("shrink");
+				document.getElementById("mainMenu").classList.add("grow");
+			}
+			if (m < 30 && test == false) {
+				document.getElementById("videoTour").classList.add("shrink");
+				document.getElementById("videoTour").classList.add("growRotate90");
+				document.getElementById("RingOrigin").classList.remove("shrink");
+				document.getElementById("menuCircle").classList.remove("bounceGrow");
+				document.getElementById("showRoom").classList.add("shrink");
+				document.getElementById("showRoom").classList.remove("growRotate180");
+				document.getElementById("conferenceRoom").classList.add("shrink");
+				document.getElementById("ULcorner").classList.add("hideT");
+				document.getElementById("URcorner").classList.add("hideT");
+				document.getElementById("LRcorner").classList.add("hideT");
+				document.getElementById("LLcorner").classList.add("hideT");
+				document
+					.getElementById("conferenceRoom")
+					.classList.remove("growRotate270");
+				document.getElementById("mainMenu").classList.add("shrink");
+				document.getElementById("mainMenu").classList.remove("grow");
+			}
+			if (m > 30 && mM && !test) {
+				camera.position.set(0, 1, 5);
+				controls.target.set(0, 0.5, 0);
+				if (test2) {
+					document.getElementById("arrowL").classList.add("hide");
+					document.getElementById("arrowR").classList.add("hide");
+				}
+			}
+			if (m > 30 && vT && !test) {
+				camera.position.set(0, 0.5, 501);
+				controls.target.set(0, 0.5, 500);
+				//videoEl.currentTime = 0;
+				if (test2) {
+					document.getElementById("arrowL").classList.add("hide");
+					document.getElementById("arrowR").classList.add("hide");
+				}
+			}
+			if (m > 30 && cR && !test) {
+				camera.position.set(0, 0, -501);
+				controls.target.set(0, 0, -500);
+				document.getElementById("arrowL").classList.remove("hide");
+				document.getElementById("arrowR").classList.remove("hide");
+				document.getElementById("arrowL").classList.add("cR");
+				document.getElementById("arrowL").classList.remove("shifted");
+			}
+			if (m > 30 && sR && !test) {
+				camera.position.set(500, 1, 5);
+				controls.target.set(500, 1, 0);
+				document.getElementById("arrowL").classList.remove("hide");
+				document.getElementById("arrowR").classList.remove("hide");
+				document.getElementById("arrowL").classList.remove("cR");
+				document.getElementById("arrowL").classList.remove("shifted");
+			}
+		};
+		var left = document.getElementById("arrowL");
+		left.onclick = function () {
+			var cam = camera.position;
+			var tpd = document
+				.getElementById("arrowL")
+				.classList.contains("shifted");
+			var cR = document
+				.getElementById("arrowL")
+				.classList.contains("cR");
+			if (tpd && cR) {
+				camera.position.set(0, 0, -501);
+				controls.target.set(0, 0, -500);
+				document.getElementById("arrowL").classList.remove("shifted");
+			}
+			if (!tpd && cR) {
+				camera.position.set(0, 500, -501);
+				controls.target.set(0, 500, -500);
+				document.getElementById("arrowL").classList.add("shifted");
+			}
+			if (tpd && !cR) {
+				camera.position.set(500, 1, 5);
+				controls.target.set(500, 1, 0);
+				document.getElementById("arrowL").classList.add("shifted");
+			}
+			if (!tpd && !cR) {
+				camera.position.set(500, 552, 3);
+				controls.target.set(500, 552, 1);
+				document.getElementById("arrowL").classList.add("shifted");
+			}
+		};
+		var right = document.getElementById("arrowR");
+		right.onclick = function () {
+			var cam = camera.position;
+			var tpd = document
+				.getElementById("arrowL")
+				.classList.contains("shifted");
+			var cR = document
+				.getElementById("arrowL")
+				.classList.contains("cR");
+			if (tpd && cR) {
+				camera.position.set(0, 0, -501);
+				controls.target.set(0, 0, -500);
+				document.getElementById("arrowL").classList.remove("shifted");
+			}
+			if (!tpd && cR) {
+				camera.position.set(0, 500, -501);
+				controls.target.set(0, 500, -500);
+				document.getElementById("arrowL").classList.add("shifted");
+			}
+			if (tpd && !cR) {
+				camera.position.set(500, 1, 5);
+				controls.target.set(500, 1, 0);
+				document.getElementById("arrowL").classList.remove("shifted");
+			}
+			if (!tpd && !cR) {
+				camera.position.set(500, 552, 3);
+				controls.target.set(500, 552, 1);
+				document.getElementById("arrowL").classList.add("shifted");
+			}
+		};
+
+	</script>
+
+</body>
+
+</html>

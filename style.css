@@ -14,14 +14,14 @@ body {
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
-
+/*
 @media screen and (max-width: 700px) {
   body {
     padding: 170px 0 0 0;
     width: 100%;
   }
 }
-
+*/
 a {
   color: inherit;
 }
@@ -36,14 +36,21 @@ a {
   left:0;
 }
 .trim{
-  width:50%;
+  height:25%;
   bottom:0;
   right:0;
 }
 .menuPart{
-  width:23%;
+  height:25%;
   bottom:0;
   right:0;
+}
+.squarer{
+  aspect-ratio : 1 / 1;
+  pointer-events: none
+}
+.unclick{
+  pointer-events: none
 }
 .arrowL{
   width:10%;
@@ -59,9 +66,66 @@ a {
 .hide{
   transform:scale(0);
 }
+.top{
+	z-index: 2;
+}
+.bottom{
+	z-index: 0;
+}
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #000000
+}
+
+.ULcorner {
+  margin: 0;
+  position: absolute;
+  top: 24%;
+  left: 24%;
+  -ms-transform: translate(-24%, -24%);
+  transform: translate(-24%, -24%) rotate(315deg);
+  color: #000000
+}
+.URcorner {
+  margin: 0;
+  position: absolute;
+  top: 23%;
+  right: 23%;
+  -ms-transform: translate(23%, -23%);
+  transform: translate(23%, -23%) rotate(45deg);
+  color: #000000
+}
+
+.LRcorner {
+  margin: 0;
+  position: absolute;
+  bottom: 22%;
+  right: 22%;
+  -ms-transform: translate(22%, 22%);
+  transform: translate(22%, 22%) rotate(135deg);
+  color: #000000
+}
+
+.LLcorner {
+  margin: 0;
+  position: absolute;
+  bottom: 24%;
+  Left: 24%;
+  -ms-transform: translate(-24%, 24%);
+  transform: translate(-24%, 24%) rotate(225deg);
+  color: #000000
+}
 
 .growRotate90{
 	animation: growRotate-90 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.hideT{
+	display: none;
 }
 
 @keyframes growRotate-90 {
